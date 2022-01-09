@@ -13,38 +13,25 @@ from scripts.calculateOptimalTeam import calculate_optimal_team
 from app import app
 
 
-df = create_base_df(season_year=2020)
+df = create_base_df(season_year=2022)
+# print(df.columns)
 #df['salary'] = df['2019-20']
-player_list = espn_fantasy_pull(year = 2020, leagueid=22328189)
-team_dict = espn_team_pull(year = 2020, leagueid=22328189)
+player_list = espn_fantasy_pull(leagueid=1446189898)
+team_dict = espn_team_pull()
 team_list = list(team_dict.keys())
+print(f'Teams for urLeague: {team_list}')
 
 def normalize(array):
     return np.asarray([float(i)/np.max(array) for i in array])
 
-layout = html.Div([
-    html.H3('Team Optimizer'),
-    # html.Div([
-    #     html.Div(
-    #         dcc.Link('Go to player table', href='/'),
-    #         style={'display': 'inline-block', 'width': '20%'}
-    #     ),
-    #     html.Div(
-    #         dcc.Link('Go to salary calculator', href='/salaryCalculator'),
-    #         style={'display': 'inline-block', 'width': '20%'}
-    #     ),
-    #     html.Div(
-    #         dcc.Link('Go to team analysis tool', href='/teamAnalysis'),
-    #         style={'display': 'inline-block', 'width': '20%'}
-    #     )
-    # ]),
-    # html.Br(),
 
-    dbc.Nav([
-        dbc.NavItem(dbc.NavLink('Go to player table', href='/')),
-        dbc.NavItem(dbc.NavLink('Go to salary calculator', href='/salaryCalculator')),
-        dbc.NavItem(dbc.NavLink('Go to team analysis tool', href='/teamAnalysis'))
-    ], horizontal='center'),
+layout = html.Div([
+    html.H3('urLeague Analytics', style={'font-size':'3.5rem', 'color':'white', 'text-decoration': 'underline'}),
+    html.H3('Team Optimizer', style={'font-size':'1.7rem'}),
+
+    
+    # html.Br(),
+    html.Br(),
     html.Br(),
     dcc.Checklist(
         id='checklist-options',
@@ -209,7 +196,7 @@ layout = html.Div([
             dcc.Checklist(
                 id='fantasy-league-checklist',
                 options=[
-                    {'label': 'Exclude players in my fantasy league', 'value': 'fantasy_exclusion'}
+                    {'label': 'Exclude players', 'value': 'fantasy_exclusion'}
                 ],
                 value=[
                     'fantasy_exclusion'
@@ -337,7 +324,7 @@ def create_solution_table(fg_value, ft_value, three_point_value, rebs, asts, stl
     if inclusion_list is None:
         inclusion_list = []
     if fleague:
-        fantasy_players = espn_fantasy_pull(year = 2020, leagueid=22328189)
+        fantasy_players = espn_fantasy_pull(leagueid=22328189)
         if fantasy_team:
             exclusion_list += list(set(fantasy_players) - set(team_dict[fantasy_team]))
         else:
@@ -354,6 +341,7 @@ def create_solution_table(fg_value, ft_value, three_point_value, rebs, asts, stl
         'ppg': float(ppg[:-1])
     }
 
+    
     temp_table_col_list = ['name', 'field_goal_percentage', 'free_throw_percentage', 'made_three_point_field_goals',
         'rebounds', 'assists', 'steals', 'blocks', 'turnovers', 'ppg', 'salary', 'raw_score']
     temp_table_cols = [{'name': i, 'id': i} for i in temp_table_col_list]
@@ -384,13 +372,13 @@ def create_solution_table(fg_value, ft_value, three_point_value, rebs, asts, stl
             else:
                 temp_table['raw_score'] += normalize(temp_table[option])*weight_dict[option]
         scores = temp_table['raw_score'].to_numpy()
-        sals = temp_table['2019-20'].replace('[\$,]', '', regex=True).astype(float).to_numpy()
+        sals = temp_table['2021-22'].replace('[\$,]', '', regex=True).astype(float).to_numpy()
         names = temp_table['no_accents'].to_numpy()
-        optimal_team = calculate_optimal_team(slots=int(number_players), max_cost=1100,
+        optimal_team = calculate_optimal_team(slots=int(number_players), max_cost=9999,
             exclusion_list=exclusion_list, inclusion_list=list(set(inclusion_list) - set(exclusion_list)),
             scores=scores, sals=sals, names=names)
         optimal_team_table = temp_table[temp_table['no_accents'].isin(optimal_team)]
-        optimal_team_table = optimal_team_table.rename(columns={"2019-20": "salary"})
+        optimal_team_table = optimal_team_table.rename(columns={"2021-22": "salary"})
         optimal_team_table = optimal_team_table[['name', 'field_goal_percentage', 'free_throw_percentage', 'made_three_point_field_goals',
             'rebounds', 'assists', 'steals', 'blocks', 'turnovers', 'ppg', 'salary', 'raw_score']]
         optimal_team_table['raw_score'] = optimal_team_table['raw_score'].round(2)
@@ -414,18 +402,53 @@ def create_solution_table(fg_value, ft_value, three_point_value, rebs, asts, stl
                 'rebounds', 'assists', 'steals', 'blocks', 'turnovers', 'ppg', 'salary', 'raw_score'
         ])
         optimal_team_table = pd.concat([optimal_team_table, total_row])
+        # print(optimal_team_table)
         return html.Div([
             dt.DataTable(
                 id='optimal-results-table',
                 columns=temp_table_cols,
                 data=optimal_team_table.to_dict('rows'),
+                style_table = {
+                    'overflowX': 'scroll',
+                    'maxWidth': '100%',
+                    'minWidth': '40%'
+                },
+
+                style_header = {
+                    'backgroundColor': 'rgba(48,213,200,1)',
+                    'fontWeight': 'bold',
+                    'color': 'white',
+                    'fontSize': '1.3rem',
+                    'padding-top': '1rem',
+                    'padding-bottom': '.5rem',
+                    'border': '1px solid rgba(0,0,60,.7)'
+                },
+
+                style_cell = {
+                    'font-family':'sans-serif',
+                    'fontSize': '.8rem',
+                    'color': 'white',
+                    'backgroundColor': 'rgba(48,213,200,.8)',
+                    'textAlign': 'center',
+                    'border': '1px solid rgba(0,0,220,.4)',
+                    'minWidth': '50px', 'width': '80px', 'maxWidth': '300px',
+                    # 'whiteSpace': 'normal'
+                },
+                style_cell_conditional=[
+                    {'if': {'column_id': 'Player'},'textAlign': 'left'},
+                    {'if': {'column_id': 'Player'},'width': '100px'},
+                    {'if': {'column_id': 'Player'},'padding-left': '18px'},
+                    {'if': {'column_id': '2021-22'},'width': '110px'},
+                ],
                 style_data_conditional=[
                     {
                         'if': {
-                            'filter_query': '{name} eq "Total"',
+                            'filter_query': '{{{}}} >= {}'.format(col, value),
+                            'column_id': col
                         },
-                        'backgroundColor': 'LightGray'
-                    }
+                        'backgroundColor': 'rgba(242,133,0,1)',
+                        'color': 'white'
+                    } for (col, value) in temp_table.quantile(0.96).iteritems()
                 ]
             )
         ]), temp_table.to_json(orient='split'), top_n_score

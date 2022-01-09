@@ -8,30 +8,24 @@ import pandas as pd
 from scripts.baseDataCreation import create_base_df
 from app import app
 
-df = create_base_df(season_year=2020)
-df = df.rename(columns={"no_accents": "Player", "2019-20": "Salary"})
+df = create_base_df(season_year=2022)
+df = df.rename(columns={"no_accents": "Player", "2021-22": "Salary"})
 df_two_col = df[['Player', 'Salary']]
 
 empty_df = pd.DataFrame(columns=['Player', 'Salary'])
 
 layout = html.Div([
-    html.H3('Salary Calculator'),
-    # dcc.Link('Go to player table', href='/'),
-    # html.Br(),
-    # dcc.Link('Go to team optimizer', href='/optimalTeam'),
-    # html.Br(),
-    # dcc.Link('Go to team analysis tool', href='/teamAnalysis'),
-    dbc.Nav([
-        dbc.NavItem(dbc.NavLink('Go to player table', href='/')),
-        dbc.NavItem(dbc.NavLink('Go to team optimizer', href='/optimalTeam')),
-        dbc.NavItem(dbc.NavLink('Go to team analysis tool', href='/teamAnalysis'))
-    ], horizontal='center'),
+    html.H3('urLeague Analytics', style={'font-size':'3.5rem', 'color':'white', 'text-decoration': 'underline'}),
+    html.H3('Salary Calculator', style={'font-size':'1.7rem'}),
+    html.Br(),
+    html.Br(),
+    html.Br(),
     html.Div([
         html.Div(
             dcc.Dropdown(
                 id='player-name-dropdown',
                 options=[{'label': str(name), 'value': str(name)} for name in df['Player']],
-                value='Brook Lopez',
+                value='Tyler Herro',
                 multi=True
             ),
             style={'width': '40%'}
@@ -52,7 +46,7 @@ layout = html.Div([
             ),
             style={'width': '40%'}
         )
-    ], style={'display': 'flex', 'justify-content': 'space-between'})
+    ], style={'display': 'flex', 'justify-content': 'space-around'})
 ])
 
 @app.callback(

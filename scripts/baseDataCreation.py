@@ -3,8 +3,8 @@ def create_base_df(season_year):
     import pandas as pd
     import unicodedata
 
-    advanced_stats = client.players_advanced_season_totals(season_end_year=2020)
-    season_stats = client.players_season_totals(season_end_year=2020)
+    advanced_stats = client.players_advanced_season_totals(season_end_year=2022)
+    season_stats = client.players_season_totals(season_end_year=2022)
     total_df = pd.DataFrame(season_stats)
 
     total_df['positions'], total_df['team'] = total_df['positions'].astype(str), total_df['team'].astype(str)
@@ -48,7 +48,7 @@ def create_base_df(season_year):
 
     salaries = pd.read_csv("nba_beta_salary.csv", sep=",", engine='python')
 
-    total_df_with_salaries = total_df.join(salaries[['slug', '2019-20']].set_index('slug'), on='slug').dropna()
+    total_df_with_salaries = total_df.join(salaries[['slug', '2021-22']].set_index('slug'), on='slug').dropna()
 
     total_df_with_salaries = total_df_with_salaries.drop('slug', axis=1)
 
@@ -58,8 +58,8 @@ def create_base_df(season_year):
                                      3 * (total_df_with_salaries['made_three_point_field_goals']) +
                                      total_df_with_salaries['made_free_throws']) / \
                                     total_df_with_salaries['games_played']
-
-    return total_df_with_salaries
+    # print(total_df_with_salaries.round(2))
+    return total_df_with_salaries.round(2)
 
 def create_daily_df(last_days):
     from basketball_reference_web_scraper import client
@@ -107,7 +107,7 @@ def create_daily_df(last_days):
     df.no_accents[df.no_accents == 'Taurean Waller-Prince'] = 'Taurean Prince'
 
     salaries = pd.read_csv("nba_beta_salary.csv", sep=",", engine='python')
-    total_df_with_salaries = df.join(salaries[['slug', '2019-20']].set_index('slug'), on='slug').dropna()
+    total_df_with_salaries = df.join(salaries[['slug', '2021-22']].set_index('slug'), on='slug').dropna()
     total_df_with_salaries = total_df_with_salaries.drop('slug', axis=1)
 
     return total_df_with_salaries

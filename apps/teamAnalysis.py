@@ -14,19 +14,14 @@ from app import app
 # league_analysis_df = league_analysis(year=2020, leagueid=22328189)
 # categories = list(league_analysis_df['variable'].unique())
 # team_list = list(league_analysis_df['team_name'].unique())
+league_id = 1446189898
 
 layout = html.Div([
-    html.H3('Fantasy Team Analysis'),
-    # dcc.Link('Go to player table', href='/'),
-    # html.Br(),
-    # dcc.Link('Go to salary calculator', href='/salaryCalculator'),
-    # html.Br(),
-    # dcc.Link('Go to team optimizer', href='/optimalTeam'),
-    dbc.Nav([
-        dbc.NavItem(dbc.NavLink('Go to player table', href='/')),
-        dbc.NavItem(dbc.NavLink('Go to salary calculator', href='/salaryCalculator')),
-        dbc.NavItem(dbc.NavLink('Go to team optimizer', href='/optimalTeam'))
-    ], horizontal='center'),
+    html.H3('urLeague Analytics', style={'font-size':'3.5rem', 'color':'white', 'text-decoration': 'underline'}),
+    html.H3('Team Analysis', style={'font-size':'1.7rem'}),
+    html.Br(),
+    html.Br(),
+    
     html.Div([
         html.Div(
             dcc.Dropdown(
@@ -39,11 +34,8 @@ layout = html.Div([
         html.Div(
             dcc.Dropdown(
                 id='league-picker',
-                options=[
-                    {'label': 'Javale McGeenomes', 'value': '22328189'},
-                    {'label': 'Losses Pool', 'value': '1566531'}
-                ],
-                value='22328189'
+                options=[{'label': 'urLeague', 'value': '1446189898'},],
+                value='1446189898'
             ),
             style={'width': '20%'}
         ),
@@ -93,9 +85,9 @@ layout = html.Div([
      Input('league-picker', 'value')])
 def call_hidden_data(last_n_days_team_analysis, league_id):
     if last_n_days_team_analysis == "season":
-        hidden_df_team = league_analysis(year=2020, leagueid=int(league_id))
+        hidden_df_team = league_analysis(year=2022, leagueid=league_id)
     else:
-        hidden_df_team = league_analysis(year=2020, leagueid=int(league_id), last_n_days=int(last_n_days_team_analysis))
+        hidden_df_team = league_analysis(year=2022, last_n_days=int(last_n_days_team_analysis))
     return hidden_df_team.to_json(orient='split')
 
 # @app.callback(

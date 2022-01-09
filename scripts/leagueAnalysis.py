@@ -3,11 +3,14 @@ def league_analysis(year, leagueid, last_n_days=None):
     from scripts.espnQuery import espn_team_pull
     import pandas as pd
     # Pull team info
-    team_dict = espn_team_pull(year=year, leagueid=leagueid)
+    league_id = 1446189898
+    year = 2022
+
+    team_dict = espn_team_pull()
 
     # Pull season info
     if last_n_days is None:
-        season_df = create_base_df(season_year=2020)
+        season_df = create_base_df(season_year=2022)
     else:
         season_df = create_daily_df(last_days=last_n_days)
     season_df = season_df[['name', 'field_goal_percentage', 'free_throw_percentage', 'made_three_point_field_goals',

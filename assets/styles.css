@@ -1,0 +1,214 @@
+@import url(https://fonts.googleapis.com/css?family=Neucha|Cabin+Sketch&display=swap);
+@import url(https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap);
+@import url('https://fonts.googleapis.com/css2?family=Architects+Daughter&display=swap');
+ :root {
+     --bs-blue: #007bff;
+     --bs-indigo: #6610f2;
+     --bs-purple: #6f42c1;
+     --bs-pink: #e83e8c;
+     --bs-red: #dc3545;
+     --bs-orange: #fd7e14;
+     --bs-yellow: #ffc107;
+     --bs-green: #28a745;
+     --bs-teal: #20c997;
+     --bs-cyan: #17a2b8;
+     --bs-white: #fff;
+     --bs-gray: #868e96;
+     --bs-gray-dark: #333;
+     --bs-gray-100: #f8f9fa;
+     --bs-gray-200: #f7f7f9;
+     --bs-gray-300: #dee2e6;
+     --bs-gray-400: #ccc;
+     --bs-gray-500: #aaa;
+     --bs-gray-600: #868e96;
+     --bs-gray-700: #555;
+     --bs-gray-800: #333;
+     --bs-gray-900: #212529;
+     --bs-primary: #333;
+     --bs-secondary: #555;
+     --bs-success: #28a745;
+     --bs-info: #17a2b8;
+     --bs-warning: #ffc107;
+     --bs-danger: #dc3545;
+     --bs-light: #fff;
+     --bs-dark: #555;
+     --bs-primary-rgb: 51, 51, 51;
+     --bs-secondary-rgb: 85, 85, 85;
+     --bs-success-rgb: 40, 167, 69;
+     --bs-info-rgb: 23, 162, 184;
+     --bs-warning-rgb: 255, 193, 7;
+     --bs-danger-rgb: 220, 53, 69;
+     --bs-light-rgb: 255, 255, 255;
+     --bs-dark-rgb: 85, 85, 85;
+     --bs-white-rgb: 255, 255, 255;
+     --bs-black-rgb: 0, 0, 0;
+     --bs-body-color-rgb: 33, 37, 41;
+     --bs-body-bg-rgb: 255, 255, 255;
+     --bs-font-sans-serif: Neucha, -apple-system, system-ui, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+     --bs-font-monospace: SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+     --bs-gradient: linear-gradient(180deg, rgba(255, 255, 255, 0.15), rgba(255, 255, 255, 0));
+     --bs-body-font-family: var(--bs-font-sans-serif);
+     --bs-body-font-size: 1rem;
+     --bs-body-font-weight: 700;
+     --bs-body-line-height: 1.5;
+     --bs-body-color: #141414;
+     --bs-body-bg: #fff
+ }
+
+ /* *, ::after, ::before {
+     box-sizing: border-box
+ } */
+
+ @media (prefers-reduced-motion:no-preference) {
+     :root {
+         scroll-behavior: smooth
+     }
+ }
+
+
+ html {
+     height: 100%;
+ }
+
+ body {
+     margin: 0px;
+     font-family: var(--bs-body-font-family);
+     font-size: var(--bs-body-font-size);
+     font-weight: var(--bs-body-font-weight);
+     line-height: var(--bs-body-line-height);
+     color: rgba(242,133,0,1);
+     text-align: var(--bs-body-text-align);
+     height: 100%;
+     background-image: url('/assets/background2.jpg');
+     background-size: cover;
+     background-position: center;
+     background-repeat: no-repeat;
+     background-attachment: fixed;
+     -webkit-text-size-adjust: 100%;
+     /* -webkit-tap-highlight-color: transparent */
+ }
+
+ /* .dash-spreadsheet-inner.dash-spreadsheet.dash-empty-01.dash-no-filter.dash-fill-width {
+    padding: 0 20px;
+} */
+.dash-table-container .row {
+    margin: 0;
+}
+.Select--multi .Select-value {
+    background-color: #fcba03;
+    border-color: #e3a700;
+    color: #fff;
+  }
+
+.h4, h4 {
+     font-size: calc(1.575rem + .3vw);
+     color: white;
+ }
+.h3, h3 {
+     font-size: calc(2.275rem + .3vw);
+     color: rgba(242,133,0,1);
+     text-align: center;
+ }
+
+.h6, h6 {
+     font-size: calc(1rem + .3vw);
+     text-align: left;
+     margin-top: 0;
+     margin-bottom: 0;
+ }
+
+#sidebar {
+    text-align: center;
+    padding: .9em 1rem 0em;
+    background-color: rgba(242,133,0,.3);
+  }
+  
+  #sidebar h2 {
+    text-align: left;
+    margin-bottom: 0;
+  }
+  
+  /* Hide the blurb on a small screen */
+  #blurb {
+    display: none;
+  }
+  
+  #sidebar-toggle {
+    display: none;
+  }
+  
+  #collapse *:first-child {
+    margin-top: 1rem;
+  }
+  
+  /* add the three horizontal bars icon for the toggle */
+  .navbar-toggler-icon {
+    background-image: url("data:image/svg+xml,%3csvg viewBox='0 0 30 30' xmlns='http://www.w3.org/2000/svg'%3e%3cpath stroke='rgba(48,213,200,1)' stroke-width='2' stroke-linecap='round' stroke-miterlimit='10' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
+  }
+  
+  #page-content {
+    padding: 2rem 1rem;
+  }
+  
+  @media (min-width: 48em) {
+    #sidebar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      bottom: 0;
+      width: 14rem;
+      text-align: left;
+      transition: margin 0.3s ease-in-out, padding 0.3s ease-in-out;
+    }
+  
+    #sidebar-toggle {
+      display: inline-block;
+      position: relative;
+      top: 0;
+      transition: top 0.3s ease-in-out;
+    }
+  
+    /* add negative margin to sidebar to achieve the collapse */
+    #sidebar.collapsed {
+      margin-left: -9.5rem;
+      padding-right: 0.5rem;
+    }
+  
+    /* move the sidebar toggle up to the top left corner */
+    #sidebar.collapsed #sidebar-toggle {
+      top: -2rem;
+    }
+  
+    /* also adjust margin of page content */
+    #sidebar.collapsed ~ #page-content {
+      margin-left: 6.5rem;
+    }
+  
+    /* move all contents of navbar other than header (containing toggle) further
+       off-screen */
+    #sidebar.collapsed > *:not(:first-child) {
+      margin-left: -6rem;
+      margin-right: 6rem;
+    }
+  
+    /* reveal the blurb on a large screen */
+    #blurb {
+      display: block;
+    }
+  
+    /* Hide the toggle on a large screen */
+    #navbar-toggle {
+      display: none;
+    }
+  
+    #collapse {
+      display: block;
+    }
+  
+    /* set margins of the main content so that it doesn't overlap the sidebar */
+    #page-content {
+      margin-left: 22rem;
+      margin-right: 2rem;
+      transition: margin-left 0.3s ease-in-out;
+    }
+  }
